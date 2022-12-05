@@ -8,7 +8,7 @@ from collections import deque
 def get_lines(source_file):
     with open(source_file) as f:
         for line in f:
-            yield line.rstrip(os.linesep)
+            yield line
 
 
 def create_stack_layout(stacks, line):
@@ -16,9 +16,9 @@ def create_stack_layout(stacks, line):
 
     Here we take advantage of the fact that the input for
     the layout is tabulated and follows the pattern of:
-    '[', single letter, ']', white space, so a length of 4
-    at maximum. We use this known format to scan the input
-    in an efficient way.
+    '[', single letter, ']', white space, so a length of 4.
+    We use this known format to scan the input in an efficient
+    way.
     """
 
     chars_per_stack = 4  # Four chars per stack.
@@ -29,7 +29,7 @@ def create_stack_layout(stacks, line):
     # given lines that are always of the same size, no
     # matter if they contain data for just one stack, so
     # we could make an allocation outside this method.
-    num_stacks = len(line) // chars_per_stack + 1
+    num_stacks = len(line) // chars_per_stack
     if num_stacks > len(stacks):
         num_new_stacks = num_stacks - len(stacks)
         stacks.extend(deque() for _ in range(num_new_stacks))
@@ -99,7 +99,7 @@ def get_tops(lines):
         # consecutive numbers starting in ' 1'). So if we are not
         # any of those two other types, then we are on a line that
         # defines the layout.
-        elif line and line[1] != '1':
+        elif line != os.linesep and line[1] != '1':
             create_stack_layout(stacks, line)
 
     # Print the tops
