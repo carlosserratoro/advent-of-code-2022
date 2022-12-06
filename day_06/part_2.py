@@ -19,7 +19,11 @@ def _get_num_chars_to_process(line):
         s = {line[i]}
         repeated_not_found = True
         j = 1
-        while j < START_OF_MSG_SIZE and repeated_not_found:
+        while (
+            i+j < len(line)
+            and j < START_OF_MSG_SIZE
+            and repeated_not_found
+        ):
             if line[i+j] in s:
                 repeated_not_found = False
             else:
